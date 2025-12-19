@@ -197,9 +197,9 @@ func runSearch() {
 
 func printTrips(trips []models.Trip) {
 	fmt.Printf("\n--- Found %d trips ---\n", len(trips))
-	fmt.Printf("%-10s | %-16s | %-16s | %-6s | %-8s | %s -> %s\n", "Provider", "Dep", "Arr", "Price", "Dur", "Origin", "Dest")
+	fmt.Printf("%-10s | %-12s | %-12s | %-6s | %-8s | %s -> %s\n", "Provider", "Dep", "Arr", "Price", "Dur", "Origin", "Dest")
 	for _, t := range trips {
-		fmt.Printf("%-10s | %-16s | %-16s | %5.2f%s | %-8s | %s -> %s\n",
+		fmt.Printf("%-10s | %-12s | %-12s | %5.2f%s | %-8s | %s -> %s\n",
 			t.Provider,
 			t.DepartureTime.Format("02.01 15:04"),
 			t.ArrivalTime.Format("02.01 15:04"),
@@ -237,12 +237,12 @@ func saveAndOpen(trips []models.Trip) {
 	if err == nil {
 		defer f.Close()
 		w := csv.NewWriter(f)
-		w.Write([]string{"Provider", "Departure", "Arrival", "Price", "Currency", "Duration", "Origin", "Destination", "Transfers", "Vehicle"})
+		w.Write([]string{"Provider", "Departure", "Arrival", "Price", "Currency", "Duration", "Origin", "Destination", "Transfers", "VehicleType"})
 		for _, t := range trips {
 			w.Write([]string{
 				t.Provider,
-				t.DepartureTime.Format(time.RFC3339),
-				t.ArrivalTime.Format(time.RFC3339),
+				t.DepartureTime.Format("02.01 15:04"),
+				t.ArrivalTime.Format("02.01 15:04"),
 				fmt.Sprintf("%.2f", t.Price),
 				t.Currency,
 				t.Duration,

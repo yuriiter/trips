@@ -215,7 +215,7 @@ func (f *FlixbusProvider) SearchTrips(fromLoc, toLoc models.Location, date time.
 			ArrivalTime:        arrTime,
 			Duration:           fmt.Sprintf("%02dh %02dm", result.Duration.Hours, result.Duration.Minutes),
 			Price:              result.Price.Total,
-			Currency:           result.Price.Currency,
+			Currency:           "EUR",
 			OriginStation:      originName,
 			DestinationStation: destName,
 			Transfers:          transfers,

@@ -6,6 +6,7 @@ import (
 	"github.com/yuriiter/trips/pkg/models"
 	"github.com/yuriiter/trips/pkg/utils"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -175,13 +176,25 @@ func (r *RegiojetProvider) SearchTrips(fromLoc, toLoc models.Location, date time
 		if depTime.Format("2006-01-02") != dateStr {
 			continue
 		}
-		arrTime, _ := time.Parse("2006-01-02T15:04:05.000-0700", route.ArrivalTime)
+		arrTime, _ := time.Parse("2006-01-02T15:04:05.000-07:00", route.ArrivalTime)
+
+		dur := route.TravelTime
+		dur = strings.ReplaceAll(dur, "h", "")
+		dur = strings.ReplaceAll(dur, "\u00a0", "")
+		dur = strings.TrimSpace(strings.ReplaceAll(dur, " ", ""))
+		parts := strings.Split(dur, ":")
+		finalDur := route.TravelTime
+		if len(parts) == 2 {
+			h, _ := strconv.Atoi(parts[0])
+			m, _ := strconv.Atoi(parts[1])
+			finalDur = fmt.Sprintf("%02dh %02dm", h, m)
+		}
 
 		trips = append(trips, models.Trip{
 			Provider:           "Regiojet",
 			DepartureTime:      depTime,
 			ArrivalTime:        arrTime,
-			Duration:           strings.ReplaceAll(route.TravelTime, "\u00a0", " "),
+			Duration:           finalDur,
 			Price:              route.PriceFrom,
 			Currency:           "EUR",
 			OriginStation:      fromLoc.Name,
