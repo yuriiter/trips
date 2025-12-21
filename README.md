@@ -43,6 +43,12 @@ Search for trips between two cities for tomorrow:
 trips --from "Budapest" --to "Vienna" --date "tomorrow"
 ```
 
+Search for trips to multiple desinations for multiple dates:
+
+```bash
+trips --from Budapest --to Vienna,Berlin --date today,tomorrow
+```
+
 ### Country-Wide Search
 
 Search from a specific city to anywhere in a country:
