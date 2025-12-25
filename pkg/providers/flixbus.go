@@ -64,7 +64,7 @@ func (f *FlixbusProvider) SearchLocationByName(name string) (*models.Location, e
 
 func (f *FlixbusProvider) getCitiesInBbox(bbox map[string]map[string]float64) ([]models.Location, error) {
 	bboxJson, _ := json.Marshal(bbox)
-	u := fmt.Sprintf("https://global.api.flixbus.com/cms/cities?language=en&geo_bounding_box=%s", url.QueryEscape(string(bboxJson)))
+	u := fmt.Sprintf("https://global.api.flixbus.com/cms/cities?language=en&limit=5000&geo_bounding_box=%s", url.QueryEscape(string(bboxJson)))
 
 	utils.DebugLog("Flixbus: Fetching cities in bbox")
 
